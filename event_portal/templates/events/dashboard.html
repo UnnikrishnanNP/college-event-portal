@@ -1,0 +1,41 @@
+{% extends 'events/main.html' %}
+
+{% block content  %}
+
+{%  include 'events/status.html' %}
+
+<div class="row">
+    <div class="col-md-6">
+        <h5>Events</h5>
+        <hr>
+        <div class="card card-body">
+            <a href="#" class="btn btn-primary btn-sm btn-block">Creat Event</a>
+            <table class="table table-sm">
+                <tr>
+                    <th></th>
+                    <th>Events</th>
+                    <th>TBA</th>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <h5>Upcoming Events</h5>
+        <hr>
+        <div class="card card-body">
+            <a href="#" class="btn btn-primary btn-sm btn-block">TBA</a>
+            <table class="table table-sm">
+                <tr>
+                    <th>Event Name</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Location</th>
+                    <th>Participants Limit</th>
+                    <th>Remove</th>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -3,13 +3,14 @@ from django.http import HttpResponse
 # Create your views here.
 
 
-def events(request):
+def home(request):
     return render(request, 'events/dashboard.html')
 
 
-def products(request):
-    return HttpResponse('Products')
+def events(request):
+    return render(request, 'events/events.html')
 
 
-def customers(request):
+def tba(request):
     return HttpResponse('Customers')
+# tba is given so that in future to change its name
