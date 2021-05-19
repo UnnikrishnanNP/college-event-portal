@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from .models import *
 # Create your views here.
 
 
@@ -8,7 +9,8 @@ def home(request):
 
 
 def events(request):
-    return render(request, 'events/events.html')
+    event = Event.objects.all()
+    return render(request, 'events/events.html', {'events': events})
 
 
 def tba(request):
