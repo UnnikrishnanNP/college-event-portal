@@ -30,7 +30,7 @@
                     <th>Date</th>
                     <th>Location</th>
                     <th>Participants Limit</th>
-                    <th>Current Status</th>
+                    <!-- <th>Current Status</th> -->
                     <th>Remove</th>
                 </tr>
                 {% for i in events %}
@@ -39,13 +39,13 @@
                     <td>{{i.date}}</td>
                     <td>{{i.location}}</td>
                     <td>{{i.limit}}</td>
-                    <td></td>
-                    <td><a href="#">Remove</a></td>
+                    <!-- <td>{{i.status}}</td> -->
+                    <td><a href="#" class="btn btn-sm btn-danger">Remove</a></td>
 
                 </tr>
                 {% endfor %}
             </table>
-            <a href="#" class="btn btn-primary btn-sm btn-block">Create Event</a>
+            <a href="{% url 'new_event' %}" class="btn btn-primary btn-sm btn-block">Create Event</a>
         </div>
     </div>
 </div>
