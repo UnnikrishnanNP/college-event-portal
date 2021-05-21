@@ -32,19 +32,20 @@ def new_event(request):
     if request.method == 'POST':
         data = request.POST
         print('Printing POST : ', request.POST)
-        form = NewEventForm(request)
+        form = NewEventForm(redirect)
         context = {'form': data}
         if form.is_valid():
             form.save()
             return redirect('/')
 
     elif request.method == 'GET':
-        context = {'form': form}
+        data = request.GET
         print('Printing GET : ', request.GET)
-        return render(request, 'events/new_event.html', context)
+        form = NewEventForm(request)
+        context = {'form': data}
         if form.is_valid():
             form.save()
-            return redirect('/')
+            return render(request, 'events/new_event.html', context)
 
     else:
         context = {'form': form}
