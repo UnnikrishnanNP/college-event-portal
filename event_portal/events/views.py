@@ -32,7 +32,7 @@ def new_event(request):
     if request.method == 'POST':
         data = request.POST
         print('Printing POST : ', request.POST)
-        form = NewEventForm(redirect)
+        form = NewEventForm(request.POST)
         context = {'form': data}
         if form.is_valid():
             form.save()
@@ -41,7 +41,7 @@ def new_event(request):
     elif request.method == 'GET':
         data = request.GET
         print('Printing GET : ', request.GET)
-        form = NewEventForm(request)
+        form = NewEventForm(request.GET)
         context = {'form': data}
         if form.is_valid():
             form.save()
@@ -50,4 +50,9 @@ def new_event(request):
     else:
         context = {'form': form}
         return render(request, 'events/new_event.html', context)
-# tba is given so that in future to change its name
+
+
+def deleteEvent(request, pk):
+    event_link = Event.objects.get(id=pk)
+    context = {'event_link': event_link}
+    return render(request, 'events/delete.html', context)

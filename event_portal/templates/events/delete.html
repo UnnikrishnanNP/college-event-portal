@@ -1,0 +1,14 @@
+{% extends 'events/main.html' %}
+{% include 'events/navbar.html' %}
+{% load static %}
+{% block content %}
+
+<p>Are you sure you want to delete "{{name}}"</p>
+
+<form action="" method="post">
+    <a href="{% url 'home' %}">Cancel</a>
+    <input type="submit" name="Confirm">
+</form>
+
+
+{% endblock %}
