@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from .models import *
 from .forms import *
@@ -30,9 +30,23 @@ def events(request):
 def new_event(request):
     form = NewEventForm()
     if request.method == 'POST':
-        # print('Printing POST : ', request.POST)
+        data = request.POST
+        print('Printing POST : ', request.POST)
         form = NewEventForm(request)
+        context = {'form': data}
+        if form.is_valid():
+            form.save()
+            return redirect('/')
 
-    context = {'form': form}
-    return render(request, 'events/new_event.html', context)
+    elif request.method == 'GET':
+        context = {'form': form}
+        print('Printing GET : ', request.GET)
+        return render(request, 'events/new_event.html', context)
+        if form.is_valid():
+            form.save()
+            return redirect('/')
+
+    else:
+        context = {'form': form}
+        return render(request, 'events/new_event.html', context)
 # tba is given so that in future to change its name
