@@ -6,7 +6,7 @@ from django.db import models
 class Event(models.Model):
     STATUS = (
         ('Ongoing Events', 'Ongoing Events'),
-        ('Events Conducted', 'Events Conducted'),
+        ('Events Completed', 'Events Completed'),
         ('Upcoming Events', 'Upcoming Events')
     )
     name = models.CharField(max_length=200)
@@ -17,26 +17,3 @@ class Event(models.Model):
 
     def __str__(self):
         return self.name
-
-
-class EventStatus(models.Model):
-    STATUS = (
-        ('Ongoing Events', 'Ongoing Events'),
-        ('Events Completed', 'Events Completed'),
-        ('Upcoming Events', 'Upcoming Events'),
-    )
-    events_created = models.ForeignKey(
-        Event, null=True, on_delete=models.SET_NULL)
-    status = models.CharField(max_length=200, null=True, choices=STATUS)
-
-    def __str__(self):
-        return self.status
-
-
-class NewEvent(models.Model):
-    title = models.CharField(max_length=200, null=True)
-    date = models.DateTimeField()
-    location = models.CharField(max_length=200, null=True)
-    limit = models.IntegerField()
-    description = models.CharField(max_length=200, null=True)
-    banner = models.CharField(max_length=200)

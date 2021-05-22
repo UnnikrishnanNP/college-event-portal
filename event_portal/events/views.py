@@ -1,20 +1,20 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from .models import *
-from .forms import *
+from .models import Event
+from .forms import NewEventForm
 # Create your views here.
 
 
 def home(request):
     event = Event.objects.all()
-    # ongoing_events = event.filter(status='Ongoing Events').count()
-    # events_conducted = event.filter(status='Events Conducted').count()
-    # upcoming_events = event.filter(status='Upcoming Events').count()
+    ongoing_events = event.filter(status='Ongoing Events').count()
+    events_completed = event.filter(status='Events Completed').count()
+    upcoming_events = event.filter(status='Upcoming Events').count()
 
-    event_status = EventStatus.objects.all()
-    ongoing_events = event_status.filter(status='Ongoing Events').count()
-    events_completed = event_status.filter(status="Events Completed").count()
-    upcoming_events = event_status.filter(status='Upcoming Events').count()
+    # event_status = EventStatus.objects.all()
+    # ongoing_events = event_status.filter(status='Ongoing Events').count()
+    # events_completed = event_status.filter(status="Events Completed").count()
+    # upcoming_events = event_status.filter(status='Upcoming Events').count()
 
     context = {'events': event, 'ongoing_events': ongoing_events,
                'events_completed': events_completed, 'upcoming_events': upcoming_events}
@@ -27,31 +27,22 @@ def events(request):
     return render(request, 'events/events.html', {'events': event})
 
 
-def new_event(request):
+def newEvent(request):
+
     form = NewEventForm()
-    if request.method == 'POST':
-        data = request.POST
-        print('Printing POST : ', request.POST)
+
+    if request.method == "POST":
+        print(request.POST)
+        # print("Printing Form : ", request.POST)
         form = NewEventForm(request.POST)
-        context = {'form': data}
         if form.is_valid():
             form.save()
-            return redirect('/dashboard.html')
+            return redirect('/')
 
-    elif request.method == 'GET':
-        data = request.GET
-        print('Printing GET : ', request.GET)
-        form = NewEventForm(request.GET)
-        context = {'form': data}
-        if form.is_valid():
-            form.save()
-            return render(request, 'events/new_event.html', context)
-    else:
-        context = {'form': form}
-        return render(request, 'events/new_event.html', context)
+    context = {'form': form}
+    return render(request, 'events/new_event.html', context)
 
-
-# def deleteEvent(request, pk):
-#     event_link = Event.objects.get(id=pk)
-#     context = {'event_link': event_link}
-#     return render(request, 'events/delete.html', context)
+    # def deleteEvent(request, pk):
+    #     event_link = Event.objects.get(id=pk)
+    #     context = {'event_link': event_link}
+    #     return render(request, 'events/delete.html', context)

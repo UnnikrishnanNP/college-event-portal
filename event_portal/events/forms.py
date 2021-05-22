@@ -1,8 +1,8 @@
 from django.forms import ModelForm
-from .models import *
+from .models import Event
 
 
 class NewEventForm(ModelForm):
     class Meta:
-        model = NewEvent
+        model = Event
         fields = '__all__'
