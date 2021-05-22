@@ -11,11 +11,6 @@ def home(request):
     events_completed = event.filter(status='Events Completed').count()
     upcoming_events = event.filter(status='Upcoming Events').count()
 
-    # event_status = EventStatus.objects.all()
-    # ongoing_events = event_status.filter(status='Ongoing Events').count()
-    # events_completed = event_status.filter(status="Events Completed").count()
-    # upcoming_events = event_status.filter(status='Upcoming Events').count()
-
     context = {'events': event, 'ongoing_events': ongoing_events,
                'events_completed': events_completed, 'upcoming_events': upcoming_events}
 
@@ -39,6 +34,12 @@ def newEvent(request):
             form.save()
             return redirect('/')
 
+    context = {'form': form}
+    return render(request, 'events/new_event.html', context)
+
+
+def updateEvent(request, pk):
+    form = NewEventForm()
     context = {'form': form}
     return render(request, 'events/new_event.html', context)
 
