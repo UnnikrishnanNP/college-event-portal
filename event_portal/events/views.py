@@ -36,8 +36,7 @@ def new_event(request):
         context = {'form': data}
         if form.is_valid():
             form.save()
-            return redirect('/')
-
+            return redirect('/dashboard.html')
     elif request.method == 'GET':
         data = request.GET
         print('Printing GET : ', request.GET)
@@ -46,7 +45,6 @@ def new_event(request):
         if form.is_valid():
             form.save()
             return render(request, 'events/new_event.html', context)
-
     else:
         context = {'form': form}
         return render(request, 'events/new_event.html', context)
