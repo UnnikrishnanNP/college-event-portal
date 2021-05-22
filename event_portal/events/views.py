@@ -32,24 +32,26 @@ def new_event(request):
     if request.method == 'POST':
         data = request.POST
         print('Printing POST : ', request.POST)
-        form = NewEventForm(request)
+        form = NewEventForm(request.POST)
         context = {'form': data}
         if form.is_valid():
             form.save()
             return redirect('/dashboard.html')
+
     elif request.method == 'GET':
-        context = {'form': form}
+        data = request.GET
         print('Printing GET : ', request.GET)
-        return render(request, 'events/new_event.html', context)
+        form = NewEventForm(request.GET)
+        context = {'form': data}
         if form.is_valid():
             form.save()
-<<<<<<< HEAD
             return render(request, 'events/new_event.html', context)
-=======
-            return redirect('/')
-
->>>>>>> parent of 56d6428... forms updated with some errors
     else:
         context = {'form': form}
         return render(request, 'events/new_event.html', context)
-# tba is given so that in future to change its name
+
+
+# def deleteEvent(request, pk):
+#     event_link = Event.objects.get(id=pk)
+#     context = {'event_link': event_link}
+#     return render(request, 'events/delete.html', context)
