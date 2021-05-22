@@ -6,3 +6,13 @@ class NewEventForm(ModelForm):
     class Meta:
         model = Event
         fields = '__all__'
+
+
+class UpdateEventForm(ModelForm):
+    class Meta:
+        model = Event
+        fields = [
+            'name',
+            'location',
+            'limit'
+        ]

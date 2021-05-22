@@ -1,0 +1,20 @@
+{% extends 'events/main.html' %}
+{% include 'events/navbar.html' %}
+{% load static %}
+{% block content %}
+
+<br>
+<div class="row">
+    <div class="col-md-8">
+        <div class="card card-body">
+            <form action="" method="POST">
+                {% csrf_token %}
+                {{ form2 }}
+                <input type="submit" name="Submit">
+            </form>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

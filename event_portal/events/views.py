@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from .models import Event
-from .forms import NewEventForm
+from .forms import NewEventForm, UpdateEventForm
 # Create your views here.
 
 
@@ -39,11 +39,23 @@ def newEvent(request):
 
 
 def updateEvent(request, pk):
-    form = NewEventForm()
-    context = {'form': form}
-    return render(request, 'events/new_event.html', context)
 
-    # def deleteEvent(request, pk):
-    #     event_link = Event.objects.get(id=pk)
-    #     context = {'event_link': event_link}
-    #     return render(request, 'events/delete.html', context)
+    update_event = Event.objects.get(id=pk)
+    form2 = UpdateEventForm(instance=update_event)
+    if request.method == "POST":
+        form2 = UpdateEventForm(request.POST, instance=update_event)
+        if form2.is_valid():
+            form2.save()
+            return redirect('/')
+
+    context = {'form2': form2}
+    return render(request, 'events/update_event.html', context)
+
+
+def deleteEvent(request, pk):
+    event_link = Event.objects.get(id=pk)
+    if request.method == 'POST':
+        event_link.delete()
+        return redirect('/')
+    context = {'name': event_link}
+    return render(request, 'events/delete.html', context)
