@@ -32,19 +32,23 @@ def new_event(request):
     if request.method == 'POST':
         data = request.POST
         print('Printing POST : ', request.POST)
-        form = NewEventForm(redirect)
+        form = NewEventForm(request)
         context = {'form': data}
         if form.is_valid():
             form.save()
             return redirect('/dashboard.html')
     elif request.method == 'GET':
-        data = request.GET
+        context = {'form': form}
         print('Printing GET : ', request.GET)
-        form = NewEventForm(request)
-        context = {'form': data}
+        return render(request, 'events/new_event.html', context)
         if form.is_valid():
             form.save()
+<<<<<<< HEAD
             return render(request, 'events/new_event.html', context)
+=======
+            return redirect('/')
+
+>>>>>>> parent of 56d6428... forms updated with some errors
     else:
         context = {'form': form}
         return render(request, 'events/new_event.html', context)
