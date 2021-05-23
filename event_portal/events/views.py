@@ -4,33 +4,36 @@ from .models import Event
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import Group
 from .forms import NewEventForm, UpdateEventForm, CreateUserForm
 from django.contrib.auth.forms import UserCreationForm
+from .decoraters import unauthenticated_user, allowed_users
 # Create your views here.
 
 
 # register page view
+@unauthenticated_user
 def registerPage(request):
-    if request.user.is_authenticated:
-        return redirect('home')
-    else:
-        form = CreateUserForm()
-        if request.method == 'POST':
-            form = CreateUserForm(request.POST)
-            if form.is_valid():
-                form.save()
-                user = form.cleaned_data.get('username')
-                messages.success(request, 'Account was created for ' + user)
-                return redirect('login')
+    form = CreateUserForm()
+    if request.method == 'POST':
+        form = CreateUserForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data.get('username')
+
+            group = Group.objects.get(name='user')
+            user.groups.add(group)
+
+            messages.success(request, 'Account was created for ' + username)
+            return redirect('login')
 
     context = {'form': form}
     return render(request, 'events/register.html', context)
 
 
 # login page view
+@unauthenticated_user
 def loginPage(request):
-    if request.user.is_authenticated:
-        return redirect('home')
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
@@ -53,6 +56,7 @@ def logoutUser(request):
 
 # home page view
 @login_required(login_url='login')
+# @admin_only
 def home(request):
     event = Event.objects.all()
     ongoing_events = event.filter(status='Ongoing Events').count()
@@ -64,9 +68,18 @@ def home(request):
 
     return render(request, 'events/dashboard.html', context)
 
+# user profile page view
+
+
+def userProfile(request):
+    context = {}
+    return render(request, 'events/user-profile.html')
 
 # events page view
+
+
 @login_required(login_url='login')
+@allowed_users(allowed_roles=['admins'])
 def events(request):
     event = Event.objects.all()
     return render(request, 'events/events.html', {'events': event})
