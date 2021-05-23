@@ -33,16 +33,16 @@ def allowed_users(allowed_roles=[]):
 
 
 # decorators for admin only
-# def admin_only(view_func):
-#     def wrapper_function(request, *args, **kwargs):
-#         group = None
-#         if request.user.groups.exists():
-#             group = request.user.groups.all()[0].name
+def admin_only(view_func):
+    def wrapper_function(request, *args, **kwargs):
+        group = None
+        if request.user.groups.exists():
+            group = request.user.groups.all()[0].name
 
-#         if group == 'users':
-#             return redirect('user_profile')
+        if group == 'users':
+            return redirect('user_profile')
 
-#         if group == 'admins':
-#             return view_func(request, *args, **kwargs)
+        if group == 'admins':
+            return view_func(request, *args, **kwargs)
 
-#     return wrapper_function
+    return wrapper_function

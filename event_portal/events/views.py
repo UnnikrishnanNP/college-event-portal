@@ -7,7 +7,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import Group
 from .forms import NewEventForm, UpdateEventForm, CreateUserForm
 from django.contrib.auth.forms import UserCreationForm
-from .decoraters import unauthenticated_user, allowed_users
+from .decoraters import unauthenticated_user, allowed_users, admin_only
 # Create your views here.
 
 
@@ -18,10 +18,10 @@ def registerPage(request):
     if request.method == 'POST':
         form = CreateUserForm(request.POST)
         if form.is_valid():
-            form.save()
+            user = form.save()
             username = form.cleaned_data.get('username')
 
-            group = Group.objects.get(name='user')
+            group = Group.objects.get(name='users')
             user.groups.add(group)
 
             messages.success(request, 'Account was created for ' + username)
@@ -56,7 +56,7 @@ def logoutUser(request):
 
 # home page view
 @login_required(login_url='login')
-# @admin_only
+@admin_only
 def home(request):
     event = Event.objects.all()
     ongoing_events = event.filter(status='Ongoing Events').count()
@@ -71,6 +71,8 @@ def home(request):
 # user profile page view
 
 
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['users'])
 def userProfile(request):
     context = {}
     return render(request, 'events/user-profile.html')
@@ -79,7 +81,6 @@ def userProfile(request):
 
 
 @login_required(login_url='login')
-@allowed_users(allowed_roles=['admins'])
 def events(request):
     event = Event.objects.all()
     return render(request, 'events/events.html', {'events': event})
