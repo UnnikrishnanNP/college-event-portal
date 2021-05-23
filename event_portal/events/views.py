@@ -72,10 +72,10 @@ def home(request):
 
 
 @login_required(login_url='login')
-@allowed_users(allowed_roles=['users'])
+@allowed_users(allowed_roles='users')
 def userProfile(request):
     context = {}
-    return render(request, 'events/user-profile.html')
+    return render(request, 'events/user-profile.html', context)
 
 # events page view
 
