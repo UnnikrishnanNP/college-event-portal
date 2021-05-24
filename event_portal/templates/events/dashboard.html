@@ -5,20 +5,6 @@
 {%  include 'events/status.html' %}
 
 <div class="row">
-    <!-- <div class="col-md-6">
-        <h5>Events</h5>
-        <hr>
-        <div class="card card-body">
-            <a href="#" class="btn btn-primary btn-sm btn-block">Creat Event</a>
-            <table class="table table-sm">
-                <tr>
-                    <th></th>
-                    <th>Events</th>
-                    <th>TBA</th>
-                </tr>
-            </table>
-        </div>
-    </div> -->
     <div class="col-md-12">
         <h5 style="text-align: center;">Upcoming Events</h5>
         <hr>
@@ -36,7 +22,7 @@
                 </tr>
                 {% for i in events %}
                 <tr>
-                    <td>{{i.name}}</td>
+                    <td>{{i.event_name}}</td>
                     <td>{{i.date}}</td>
                     <td>{{i.location}}</td>
                     <td>{{i.limit}}</td>

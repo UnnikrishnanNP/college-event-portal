@@ -5,7 +5,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import Group
-from .forms import NewEventForm, UpdateEventForm, CreateUserForm
+from .forms import NewEventForm, UpdateEventForm, CreateUserForm, RegisterEventForm
 from django.contrib.auth.forms import UserCreationForm
 from .decoraters import unauthenticated_user, allowed_users, admin_only
 # Create your views here.
@@ -72,9 +72,14 @@ def home(request):
 
 
 @login_required(login_url='login')
-@allowed_users(allowed_roles='users')
+@allowed_users(allowed_roles=['users'])
 def userProfile(request):
-    context = {}
+    event = Event.objects.filter(register=True)
+    ongoing_events = event.filter(status='Ongoing Events').count()
+    events_completed = event.filter(status='Events Completed').count()
+    upcoming_events = event.filter(status='Upcoming Events').count()
+    context = {'event': event, 'ongoing_events': ongoing_events,
+               'events_completed': events_completed, 'upcoming_events': upcoming_events}
     return render(request, 'events/user-profile.html', context)
 
 # events page view
@@ -101,8 +106,28 @@ def newEvent(request):
     context = {'form': form}
     return render(request, 'events/new_event.html', context)
 
+# Register event view page
+
+
+@login_required(login_url='login')
+# @allowed_users(allowed_roles=['users', 'admins'])
+def registerEvent(request, pk):
+    event = Event.objects.all()
+
+    register_event = Event.objects.get(id=pk)
+    form = RegisterEventForm(instance=register_event)
+    if request.method == "POST":
+        form = RegisterEventForm(request.POST, instance=register_event)
+        if form.is_valid():
+            form.save()
+            return redirect('/')
+
+    context = {'form': form, 'event': event}
+    return render(request, 'events/register-event.html', context)
 
 # update event view
+
+
 @login_required(login_url='login')
 def updateEvent(request, pk):
 

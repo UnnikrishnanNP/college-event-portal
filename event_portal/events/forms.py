@@ -8,14 +8,16 @@ from .models import Event
 class NewEventForm(ModelForm):
     class Meta:
         model = Event
-        fields = '__all__'
+        fields = [
+            'event_name', 'location', 'limit', 'status'
+        ]
 
 
 class UpdateEventForm(ModelForm):
     class Meta:
         model = Event
         fields = [
-            'name',
+            'event_name',
             'location',
             'limit'
         ]
@@ -26,4 +28,18 @@ class CreateUserForm(UserCreationForm):
         model = User
         fields = [
             'username', 'email', 'password1', 'password2'
+        ]
+
+
+class RegisterEventForm(ModelForm):
+    class Meta:
+        model = Event
+        fields = [
+            'full_name',
+            'email',
+            'phone_number',
+            'event_name',
+            'location',
+            'limit',
+            'register'
         ]

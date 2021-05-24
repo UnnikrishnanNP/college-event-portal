@@ -1,6 +1,4 @@
 {% extends 'events/main.html' %}
-{% include 'events/navbar.html' %}
-{% load static %}
 {% block content %}
 
 
@@ -13,11 +11,10 @@
                 <table>
                     {{ form.as_table }}
                 </table>
-                <input type="submit" name="Submit">
+                <input type="submit" value="Register">
             </form>
         </div>
     </div>
 </div>
-
 
 {% endblock %}
