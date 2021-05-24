@@ -43,3 +43,17 @@ class RegisterEventForm(ModelForm):
             'limit',
             'register'
         ]
+
+
+class UnregisterEventForm(ModelForm):
+    class Meta:
+        model = Event
+        fields = [
+            'full_name',
+            'email',
+            'phone_number',
+            'event_name',
+            'location',
+            'limit',
+            'register'
+        ]
