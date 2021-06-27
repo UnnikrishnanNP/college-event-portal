@@ -39,4 +39,4 @@ This is the College Event Portal made with django framework. This is my first dj
 - Hari Krishnan T
 
 
-## PS : The project is not complete as of today (25/05/2021).
+## PS : The project is not completed (25/05/2021).
